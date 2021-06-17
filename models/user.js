@@ -5,14 +5,18 @@ const Schema = mongoose.Schema
 const taskSchema = new Schema(
     {
         content: String,
-        general: {
-            type: Boolean,
-            default: true
-        }
+        general: Boolean
 
     },
     {
         timestamps: true,
+    }
+)
+
+const songSchema = new Schema(
+    {
+        title: String,
+        tasks: [taskSchema]
     }
 )
 
@@ -23,7 +27,8 @@ const userSchema = new Schema(
         username: String,
         password: String,
         albumTitle: String,
-        Tasks: [taskSchema],
+        tasks: [taskSchema],
+        songs: [songSchema]
 
     },
     {
