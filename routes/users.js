@@ -28,6 +28,6 @@ router.patch('/add_song_task/:id', addSongTask)
 router.delete('/delete_song_task/:id', deleteSongTask)
 
 router.post('/signin', signin)
-router.post('/signup', auth, signup)
+router.post('/signup', signup)
 
 export default router
