@@ -45,6 +45,41 @@ export const deleteSong = async (req, res) => {
     }
 }
 
+export const addSongTask = async (req, res) => {
+    console.log(req.body)
+    const task = req.body.task
+    const user = await User.findById(req.params.id)
+    const song = user.songs.id(req.body.song._id)
+
+    song.tasks.push(task)
+
+    try {
+        user.save()
+
+        res.status(200).json(song.tasks[song.tasks.length - 1])
+    } catch (error) {
+
+        res.status(404).json("Failed")
+    }
+}
+
+export const deleteSongTask = async (req, res) => {
+    const song = req.body.song._id
+    const task = req.body.task
+    const user = await User.findById(req.params.id)
+
+    user.songs.id(song).tasks.id(task._id).remove()
+
+    try {
+        await user.save()
+
+        res.status(200).json(task)
+    } catch (error) {
+        
+        res.status(404).json("Failed")
+    }
+}
+
 export const addGeneralTask = async (req, res) => {
     const task = req.body
     console.log(req.body)
