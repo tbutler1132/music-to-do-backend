@@ -1,16 +1,49 @@
 import User from '../models/user.js'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
-export const getProfile = async (req, res) => {
-    const username = req.user.username
+export const signin = async (req, res) => {
+    const {username, password} = req.body
+
     try {
-        const user = await User.findOne({ username })
+        const existingUser = await User.findOne({username})
 
-        res.status(200).json(user)
+        if(!existingUser) return res.status(404).json("User does not exist")
+
+        const isPasswordCorrect = await bcrypt.compare(password, existingUser.password)
+
+        if(!isPasswordCorrect) return res.status(400).json('Invalid Credentials')
+
+        console.log(existingUser)
+        const token = jwt.sign({username: existingUser.username, _id: existingUser._id}, 'test', {expiresIn: "1h"})
+
+        res.status(200).json({result: existingUser, token})
     } catch (error) {
-        res.status(404)
+        res.status(500).json('Woops')
+        
     }
 }
+
+export const signup = async (req, res) => {
+    const {username, password} = req.body
+
+    try {
+        const existingUser = await User.findOne({username})
+
+        if(existingUser) return res.status(400).json("User exists")
+
+        const hashedPassword = await bcrypt.hash(password, 12)
+
+        const result = await User.create({username, password: hashedPassword})
+
+        const token = jwt.sign({username: result.username, _id: result._id}, 'test', {expiresIn: "1h"})
+
+        res.status(200).json({result, token})
+    } catch (error) { 
+        res.status(500).json('Woops')
+    }
+}
+
 
 export const getUsers = async  (req, res) => {
     try {

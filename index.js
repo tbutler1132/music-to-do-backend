@@ -4,9 +4,9 @@ import cors from 'cors'
 import {createRequire} from 'module'
 const require = createRequire(import.meta.url);
 
-import taskRoutes from './routes/tasks.js'
 import userRoutes from './routes/users.js'
 import loginRoutes from './routes/login.js'
+import {authenticateToken} from './routes/auth.js'
 
 require('dotenv').config()
 
@@ -17,7 +17,6 @@ app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 
-app.use('/tasks', taskRoutes)
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 
