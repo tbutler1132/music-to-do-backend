@@ -1,9 +1,14 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import {createRequire} from 'module'
+const require = createRequire(import.meta.url);
 
 import taskRoutes from './routes/tasks.js'
 import userRoutes from './routes/users.js'
+import loginRoutes from './routes/login.js'
+
+require('dotenv').config()
 
 const app = express();
 
@@ -14,6 +19,7 @@ app.use(cors());
 
 app.use('/tasks', taskRoutes)
 app.use('/users', userRoutes)
+app.use('/login', loginRoutes)
 
 const CONNECTION_URL = 'mongodb+srv://tbutler1132:1234@cluster0.jckqb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 

@@ -1,4 +1,16 @@
 import User from '../models/user.js'
+import bcrypt from 'bcrypt'
+
+export const getProfile = async (req, res) => {
+    const username = req.user.username
+    try {
+        const user = await User.findOne({ username })
+
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(404)
+    }
+}
 
 export const getUsers = async  (req, res) => {
     try {
@@ -114,22 +126,21 @@ export const deleteGeneralTask = async (req, res) => {
     }
 }
 
-export const createUsers = async (req, res) => {
-
-    console.log(req.body)
-    const user = req.body
-
-    console.log(user)
-
-    const newUser = new User(user)
+export const createUser = async (req, res) => {
+    const {username, password, albumTitle, tasks, songs } = req.body
+    const salt = await bcrypt.genSalt()
+    const hashedPassword = await bcrypt.hash(password, salt)
+    const newUser = new User({
+        username,
+        password: hashedPassword,
+        albumTitle,
+        tasks,
+        songs
+    });
     try {
         await newUser.save()
-
         res.status(201).json(newUser)
-        
     } catch (error) {
-        res.status(409).json({message: error.message})
-        
+        res.status(400).json({message: error.message})
     }
-
 }
