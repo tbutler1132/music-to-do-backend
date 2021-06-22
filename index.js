@@ -20,7 +20,7 @@ app.use(cors());
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 
-const CONNECTION_URL = 'mongodb+srv://tbutler1132:1234@cluster0.jckqb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const CONNECTION_URL = 'mongodb://tim:1234@tbutler1132-to-do-mongo-production/todo'
 
 const PORT = process.env.PORT|| 7000;
 
