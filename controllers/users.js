@@ -17,9 +17,9 @@ export const signin = async (req, res) => {
         console.log(existingUser)
         const token = jwt.sign({username: existingUser.username, _id: existingUser._id}, 'test', {expiresIn: "1h"})
 
-        res.status(200).json({result: existingUser, token})
+        return res.status(200).json({result: existingUser, token})
     } catch (error) {
-        res.status(500).json('Woops')
+        return res.status(500).json('Woops')
         
     }
 }
@@ -38,9 +38,9 @@ export const signup = async (req, res) => {
 
         const token = jwt.sign({username: result.username, _id: result._id}, 'test', {expiresIn: "1h"})
 
-        res.status(200).json({result, token})
+        return res.status(200).json({result, token})
     } catch (error) { 
-        res.status(500).json('Woops')
+        return res.status(500).json('Woops')
     }
 }
 
@@ -50,9 +50,9 @@ export const getUser = async (req, res) => {
     try {
         const user = await User.findById(id)
 
-        res.status(200).json(user)
+        return res.status(200).json(user)
     } catch (error) {
-        res.status(404).json("Failed to get user")
+        return res.status(404).json("Failed to get user")
     }
 }
 
@@ -63,9 +63,9 @@ export const getUsers = async  (req, res) => {
 
         console.log(users)
 
-        res.status(200).json(users)
+        return res.status(200).json(users)
     } catch (error) {
-        res.status(404).json({ message: error.message })
+        return res.status(404).json({ message: error.message })
     }
 }
 
@@ -79,9 +79,9 @@ export const addSong = async (req, res) => {
     try {
         await user.save()
 
-        res.status(200).json(user.songs[user.songs.length - 1])
+        return res.status(200).json(user.songs[user.songs.length - 1])
     } catch (error) {
-        res.status(404).json("Failed to add song")
+        return res.status(404).json("Failed to add song")
         
     }
 }
@@ -95,10 +95,10 @@ export const deleteSong = async (req, res) => {
     try {
         await user.save()
 
-        res.status(200).json("Song deleted")
+        return res.status(200).json("Song deleted")
     } catch (error) {
         
-        res.status(404).json("Failed")
+        return res.status(404).json("Failed")
     }
 }
 
@@ -113,10 +113,10 @@ export const addSongTask = async (req, res) => {
     try {
         user.save()
 
-        res.status(200).json(song.tasks[song.tasks.length - 1])
+        return res.status(200).json(song.tasks[song.tasks.length - 1])
     } catch (error) {
 
-        res.status(404).json("Failed")
+        return res.status(404).json("Failed")
     }
 }
 
@@ -130,10 +130,10 @@ export const deleteSongTask = async (req, res) => {
     try {
         await user.save()
 
-        res.status(200).json(task)
+        return res.status(200).json(task)
     } catch (error) {
         
-        res.status(404).json("Failed")
+        return res.status(404).json("Failed")
     }
 }
 
@@ -145,9 +145,10 @@ export const addGeneralTask = async (req, res) => {
     try {
         await user.save()
 
-        res.status(200).json(user.tasks[user.tasks.length - 1])
+        return res.status(200).json(user.tasks[user.tasks.length - 1])
     } catch (error) {
         
+        return res.status(404).json("Failed")
     }
 }
 
@@ -163,10 +164,10 @@ export const deleteGeneralTask = async (req, res) => {
         
         await user.save()
     
-        res.status(200).json("Task Deleted");
+        return res.status(200).json("Task Deleted");
     } catch (error) {
 
-        res.status(404).json("Can't delete")
+        return res.status(404).json("Can't delete")
         
     }
 }
@@ -184,8 +185,8 @@ export const createUser = async (req, res) => {
     });
     try {
         await newUser.save()
-        res.status(201).json(newUser)
+        return res.status(201).json(newUser)
     } catch (error) {
-        res.status(400).json({message: error.message})
+        return res.status(400).json({message: error.message})
     }
 }
