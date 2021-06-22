@@ -20,7 +20,7 @@ const router = express.Router()
 
 
 router.get('/', getUsers)
-router.get('/:id', getUser)
+router.get('/:id', auth, getUser)
 router.post('/', createUser)
 router.patch('/add_gen_task/:id', addGeneralTask)
 router.delete('/delete_gen_task/:id', deleteGeneralTask)

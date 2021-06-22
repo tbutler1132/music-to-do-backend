@@ -27,7 +27,7 @@ const userSchema = new Schema(
     {
         username: String,
         password: String,
-        albumTitle: String,
+        albumTitle: {type: String, default: 'My Project'},
         tasks: [taskSchema],
         songs: [songSchema]
 
