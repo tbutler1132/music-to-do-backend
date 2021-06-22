@@ -8,6 +8,7 @@ import {addSong} from '../controllers/users.js'
 import {deleteSong} from '../controllers/users.js'
 import {addSongTask} from '../controllers/users.js'
 import {deleteSongTask} from '../controllers/users.js'
+import {getUser} from '../controllers/users.js'
 import auth from '../middleware/auth.js'
 
 import {signin} from '../controllers/users.js'
@@ -19,6 +20,7 @@ const router = express.Router()
 
 
 router.get('/', getUsers)
+router.get('/:id', getUser)
 router.post('/', createUser)
 router.patch('/add_gen_task/:id', addGeneralTask)
 router.delete('/delete_gen_task/:id', deleteGeneralTask)
