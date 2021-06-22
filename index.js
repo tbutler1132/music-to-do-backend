@@ -19,7 +19,7 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }))
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 
-const CONNECTION_URL = 'mongodb://tbutler1132:1234@tbutler1132-to-do-mongo-production/todo'
+const CONNECTION_URL = 'mongodb://tim:1234@tbutler1132-to-do-mongo-production/todo'
 
 const PORT = process.env.PORT|| 5000;
 
