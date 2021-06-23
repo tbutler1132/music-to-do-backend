@@ -14,7 +14,15 @@ const app = express();
 
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
-app.use(cors());
+
+const corsOpts = {
+  origin: '*',
+  credentials: true,
+  methods: ['GET','POST','HEAD','PUT','PATCH','DELETE'],
+  allowedHeaders: ['Content-Type'],
+  exposedHeaders: ['Content-Type']
+};
+app.use(cors(corsOpts));
 
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
