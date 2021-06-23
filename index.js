@@ -12,17 +12,14 @@ require('dotenv').config()
 const app = express();
 
 
-
+app.use(cors());
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
-
-//CORS
-app.use(cors());
 
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 
-const CONNECTION_URL = 'mongodb://tim:1234@tbutler1132-to-do-mongo-production/todo'
+const CONNECTION_URL = 'mongodb+srv://tbutler1132:1234@cluster0.jckqb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 const PORT = process.env.PORT|| 5000;
 
