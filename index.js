@@ -25,7 +25,7 @@ app.use('/proxy', createProxyMiddleware({
   target: "tbutler1132-music-to-do-backend.zeet.app",
   changeOrigin: true,
   pathRewrite: {
-      [`^/proxy`]: '',
+      [`^/proxy`]: '/',
   },
 }));
 
