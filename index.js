@@ -21,13 +21,6 @@ app.use(express.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 
 //PROXY ENDPOINTS
-app.use('/proxy', createProxyMiddleware({
-  target: "tbutler1132-music-to-do-backend.zeet.app",
-  changeOrigin: true,
-  pathRewrite: {
-      [`^/proxy`]: '/',
-  },
-}));
 
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
@@ -44,9 +37,5 @@ app.get('/', (req, res) => {
     res.send('I a running')
 })
 
-// Info GET endpoint
-app.get('/info', (req, res, next) => {
-  res.send('This is a proxy service which proxies to Billing and Account APIs.');
-});
 
 mongoose.set('useFindAndModify', false);
