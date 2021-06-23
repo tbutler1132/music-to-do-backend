@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import {createRequire} from 'module'
+import morgan from 'morgan'
 const require = createRequire(import.meta.url);
 
 import userRoutes from './routes/users.js'
@@ -13,13 +14,15 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
+app.use(morgan('dev'))
+
 app.use(express.json({ limit: '30mb', extended: true }))
 app.use(express.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
 
 //PROXY ENDPOINTS
 app.use('/proxy', createProxyMiddleware({
-  target: "https://tbutler1132-music-to-do-backend.zeet.app/",
+  target: "https://http://localhost:7000",
   changeOrigin: true,
   pathRewrite: {
       [`^/proxy`]: '',
@@ -29,7 +32,7 @@ app.use('/proxy', createProxyMiddleware({
 app.use('/users', userRoutes)
 app.use('/login', loginRoutes)
 
-const CONNECTION_URL = 'mongodb://tbutler:1132@tbutler1132-mongo-todo-production/admin'
+const CONNECTION_URL = 'mongodb+srv://tbutler1132:1234@cluster0.jckqb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 const PORT = process.env.PORT|| 7000;
 
@@ -40,5 +43,10 @@ mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: tr
 app.get('/', (req, res) => {
     res.send('I a running')
 })
+
+// Info GET endpoint
+app.get('/info', (req, res, next) => {
+  res.send('This is a proxy service which proxies to Billing and Account APIs.');
+});
 
 mongoose.set('useFindAndModify', false);
